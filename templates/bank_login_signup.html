@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册小肥圆银行</title>
+    <style type="text/css">
+        p, input, legend, div {
+            text-align: center;
+            font-family: 'Microsoft YaHei UI'
+        }
+
+        button {
+            text-align: center;
+            background-color: bisque;
+            color: darkgoldenrod;
+            font-family: 'Microsoft YaHei UI'
+        }
+
+        body {
+            background:url(../static/pic1.png)  no-repeat center center;
+            background-size: cover;
+            background-attachment: fixed;
+            background-color: #a9cc31;
+        }
+
+        .left {
+            position: fixed;
+            left: 100px;
+        }
+        .right{
+            position: absolute;
+            right: 100px;
+        }
+    </style>
+    <script type="text/javascript">
+        function get_cardno() {
+            var no = parseInt(Math.random() * 80000000, 10) + 10000000
+            document.getElementById("cardno").value=no
+        }
+    </script>
+</head>
+<body>
+<div class="left">
+    {% if signup_result %}
+    <p style="color:red">{{ signup_result }}</p>
+    {% endif %}
+    <p>请注册小肥圆银行(●'◡'●)</p>
+    <p>
+        <button type="button" onclick="get_cardno()">获取卡号</button>
+    </p>
+    <div style="color: #3910ff">喜欢这个卡号吗？</div>
+    <form action="/signup_bank/{{ username }}" method="post">
+        <input id = "cardno" name="cardno" placeholder="请获取随机卡号">
+        <p><input name="password" placeholder="银行卡密码" type="password"></p>
+        <p><input name="password_ensure" placeholder="确认下密码" type="password"></p>
+        <p>
+            <button type="submit">注册</button>
+        </p>
+    </form>
+</div>
+<div class="right">
+    {% if login_result %}
+    <p style="color:red">{{ login_result }}</p>
+    {% endif %}
+    <form action="/login_bank/{{ username }}" method="post">
+        <p>请登录小肥圆银行(￣▽￣)"</p>
+        <p><input name="cardno" placeholder="银行卡号" value="{{ cardno }}"></p>
+        <p><input name="password" placeholder="银行密码" type="password"></p>
+        <p><button type="submit">登录</button></p>
+    </form>
+</div>
+    <form action="/index/{{ username }}" method="get">
+        <p>想家了？</p>
+        <p><button type="submit">回家</button></p>
+    </form>
+</body>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>小肥圆数据</title>
+    <style type="text/css">
+        p, input, legend {
+            text-align: center;
+            font-family: 'Microsoft YaHei UI'
+        }
+
+        button {
+            text-align: center;
+            background-color: bisque;
+            color: darkgoldenrod;
+            font-family: 'Microsoft YaHei UI'
+        }
+
+        body {
+            background: url(../static/pic1.png) no-repeat center center;
+            background-size: cover;
+            background-attachment: fixed;
+            background-color: #cc93a1;
+        }
+
+        .left {
+            position: fixed;
+            left: 100px;
+        }
+
+        .right {
+            position: fixed;
+            right: 100px;
+        }
+
+        .topless {
+            position: absolute;
+            top: 20%;
+        }
+
+        .p_left {
+            display: inline
+        }
+
+        .p_right {
+            display: inline
+        }
+    </style>
+    <script type="text/javascript">
+        function mytime() {
+            var a = new Date();
+            var b = a.toLocaleTimeString();
+            var c = a.toLocaleDateString();
+            document.getElementById("realtime").innerHTML = c + "&nbsp" + b;
+        }
+
+        setInterval(function () {
+            mytime()
+        }, 1000);
+    </script>
+</head>
+<body>
+<p style="color:#f026ff;border-collapse: collapse;size: 100px">欢迎来到小肥圆数据中心o(*￣▽￣*)ブ</p>
+<p id="realtime" style="color:#b15bff;border-collapse: collapse;size: 100px"></p>
+<table class="topless" style="left: 10%" cellpadding="10">
+    <tr>
+        <td>今日订单</td>
+        <td>{{ today_realtime_orders }}</td>
+        <td>&nbsp;</td>
+        <td>今日流水</td>
+        <td>{{ today_realtime_money }}</td>
+    </tr>
+    <tr>
+        <td>昨日</td>
+        <td>{{ yesterday_orders }}</td>
+        <td>&nbsp;</td>
+        <td>昨日</td>
+        <td>{{ yesterday_money_sum }}</td>
+    </tr>
+</table>
+<table class="topless" style="left: 60%" border="1" cellpadding="10">
+    <tr>
+        <th>今日TOPN</th>
+        <th>商品</th>
+        <th>销量</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>{{ today_top1_productid }}</td>
+        <td>{{ today_top1_sells }}</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>{{ today_top2_productid }}</td>
+        <td>{{ today_top2_sells }}</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>{{ today_top3_productid }}</td>
+        <td>{{ today_top3_sells }}</td>
+    </tr>
+</table>
+<form action="/data/index/{{ username }}" method="get">
+    <p>
+        <button type="submit">获取最新数据</button>
+    </p>
+</form>
+
+<div class="left" style="top: 55%;left:10%">
+    <p>昨日订单</p>
+    <table border="1" cellpadding="10">
+    <tr>
+        <td>&nbsp;</td>
+        <th>订单占比</th>
+        <th>流水占比</th>
+    </tr>
+    <tr>
+        <td>PC</td>
+        <td>{{ yesterday_pc_order_rate*100 }}%</td>
+        <td>{{ yesterday_pc_money_rate*100 }}%</td>
+    </tr>
+    <tr>
+        <td>iOS</td>
+        <td>{{ yesterday_ios_order_rate*100 }}%</td>
+        <td>{{ yesterday_ios_money_rate*100 }}%</td>
+    </tr>
+    <tr>
+        <td>Android</td>
+        <td>{{ yesterday_android_order_rate*100 }}%</td>
+        <td>{{ yesterday_android_money_rate*100 }}%</td>
+    </tr>
+    </table>
+</div>
+
+<div class="left" style="top: 55%;left:50%">
+    <p>昨日TOPN</p>
+    <table style="top: 60%;left:50%" border="1" cellpadding="10">
+    <tr>
+        <th>昨日TOPN</th>
+        <th>商品</th>
+        <th>销量</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>{{ yesterday_top1_productid }}</td>
+        <td>{{ yesterday_top1_sells }}</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>{{ yesterday_top2_productid }}</td>
+        <td>{{ yesterday_top2_sells }}</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>{{ yesterday_top3_productid }}</td>
+        <td>{{ yesterday_top3_sells }}</td>
+    </tr>
+    </table>
+</div>
+
+</body>
+</html>

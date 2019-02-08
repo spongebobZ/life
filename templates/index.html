@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>小肥圆世界</title>
+    <style type="text/css">
+        p,input,legend{
+            text-align: center;
+            font-family: 'Microsoft YaHei UI'
+        }
+        button{
+            text-align: center;
+            background-color: bisque;
+            color: darkgoldenrod;
+            font-family: 'Microsoft YaHei UI'
+        }
+        body{
+            background:url(../static/pic1.png)  no-repeat center center;
+            background-size:cover;
+            background-attachment:fixed;
+            background-color: #cc93a1;
+			}
+        .topless{
+            position:absolute;
+            top: 20%;
+        }
+        </style>
+</head>
+<body>
+<p style="color:#f026ff;border-collapse: collapse;size: 100px">{{ username }} ，欢迎回家o(*￣▽￣*)ブ</p>
+    <form action="/bankLoginOrSignup/{{ username }}" method="get">
+        <p><button type="submit">小肥圆银行</button></p>
+    </form>
+    <form action="/go_shop/{{ username }}" method="get">
+        <p><button type="submit">小肥圆超市</button></p>
+    </form>
+    <form action="/data/index/{{ username }}" method="get">
+        <p><button type="submit">小肥圆数据中心</button></p>
+    </form>
+    <form action="/" method="get">
+        <div class="topless" style="right: 50%;color: #ff48d2">想换别的肉登录？</div>
+        <div class="topless" style="right: 47%"><button type="submit">登出</button></div>
+    </form>
+</body>
+</html>

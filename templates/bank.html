@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>小肥圆银行</title>
+    <style type="text/css">
+        p,input,legend,div{
+            text-align: center;
+            font-family: 'Microsoft YaHei UI'
+        }
+        button{
+            text-align: center;
+            background-color: bisque;
+            color: #b46aff;
+            font-family: 'Microsoft YaHei UI'
+        }
+        body{
+            background:url(../static/pic1.png)  no-repeat center center;
+            background-size:cover;
+            background-attachment:fixed;
+            background-color: #8bc7cc;
+			}
+        .left{
+            position: fixed;
+            left: 100px;
+        }
+        .right{
+            position: fixed;
+            right: 100px;
+        }
+        .topless{
+            position:absolute;
+            top: 50%;
+        }
+        </style>
+    <script type="text/javascript">
+        function not_view_money() {
+            document.getElementById("money").innerHTML='余额:****'
+        }
+
+    </script>
+</head>
+<body>
+    <p style="font-family:verdana;font-size: 50px;color:#c89dfd">{{ username }}[{{ cardno }}] ,欢迎光临</p>
+    <div class="left" style="top: 30%">
+    <p id="money" style="font-size: 30px;color:#db5efd">余额:{{ money }}</p>
+    <button type="button" onclick="not_view_money()" style="display: inline-block">不显示余额</button>
+    <form action="/queryMoney/{{ cardno }}" method="get">
+        <button class="left" type="submit" style="display: inline-block">刷新余额</button>
+    </form>
+    </div>
+    <form action="/index/{{ username }}" method="get">
+        <p class="right">想家了？</p>
+        <button class="right" type="submit">回家</button>
+    </form>
+    <div class="topless"  style="left: 17%">
+    <form action="/inMoney/{{ cardno }}" method="post">
+        <p style="color: #ff9846">有余钱想存起来？</p>
+        <p><input name="inmoney" placeholder="存钱金额"></p>
+        <button type="submit">存钱</button>
+    </form>
+        {% if in_result %}
+        <p style="color:#f5ff2f">{{ in_result }}</p>
+        {% endif %}
+    </div>
+    </form>
+    <div class="topless"  style="left: 50%">
+    <form action="/outMoney/{{ cardno }}" method="post">
+        <p style="color: #ff9846">钱不够用了吗？(＠_＠;)</p>
+        <p><input name="outmoney" placeholder="取钱金额"></p>
+        <button type="submit">取钱</button>
+    </form>
+        {% if out_result %}
+        <p style="color:#f5ff2f">{{ out_result }}</p>
+        {% endif %}
+    </div>
+    <div class="topless"  style="left: 83%">
+    <form action="/sendMoney/{{ cardno }}" method="post">
+        <p style="color: #ff9846">想资助下别的肉吗？(＠_＠;)</p>
+        <p><input name="toCardno" placeholder="收钱的肉卡号"></p>
+        <p><input name="sendmoney" placeholder="转钱金额"></p>
+        <button type="submit">转钱</button>
+    </form>
+        {% if send_result %}
+        <p style="color:#f5ff2f">{{ send_result }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>

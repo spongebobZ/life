@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎光临小肥圆世界</title>
+    <style type="text/css">
+        p,input,legend,div{
+            text-align: center;
+            font-family: 'Microsoft YaHei UI'
+        }
+        button{
+            text-align: center;
+            background-color: bisque;
+            color: darkgoldenrod;
+            font-size: larger;
+            font-family: 'Microsoft YaHei UI'
+        }
+        body{
+            background:url(../static/pic1.png)  no-repeat center center;
+            background-size:cover;
+            background-attachment:fixed;
+            background-color: #46cca7;
+			}
+        </style>
+
+</head>
+<body>
+    <div><legend>当前时间是：{{ message }}</legend></div>
+    <iframe frameborder="0" border="1"
+            marginwidth="0" marginheight="0"
+            width=333 height=77
+            src="//music.163.com/outchain/player?type=2&id=863769360&auto=1&height=66">
+    </iframe>
+    <form action="/login" method="get">
+        <p><button type="submit">登录</button></p>
+    </form>
+    <form action="/signup" method="get">
+        <p><button type="submit">注册</button></p>
+    </form>
+</body>
+</html>

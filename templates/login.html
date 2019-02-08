@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>请肉肉登陆(●'◡'●)</title>
+    <style type="text/css">
+        p,input,legend,div,a{
+            text-align: center;
+            font-family: 'Microsoft YaHei UI'
+        }
+        button{
+            text-align: center;
+            background-color: bisque;
+            color: darkgoldenrod;
+            font-family: 'Microsoft YaHei UI'
+        }
+        body{
+            background:url(../static/pic1.png)  no-repeat center center;
+            background-size:cover;
+            background-attachment:fixed;
+            background-color: #8bc7cc;
+			}
+        </style>
+</head>
+<body>
+    {% if message %}
+    <p style="color:red">{{ message }}</p>
+    {% endif %}
+    <form action="/login" method="post">
+        <legend>请肉肉登陆(●'◡'●)</legend>
+        <p><input name="username" placeholder="肉名" value="{{ username }}"></p>
+        <p><input name="password" placeholder="肉肉密码" type="password"></p>
+        <p><button type="submit">登录</button></p>
+    </form>
+    <p style="top: 60%">还没有账号？</p>
+    <a style="top: 60%;margin: 0 auto;display: block;color: #92fd48" href="signup.html">前往注册<(￣︶￣)↗[GO!]</a>
+</body>
+</html>
