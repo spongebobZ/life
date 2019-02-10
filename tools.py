@@ -1,5 +1,11 @@
 from elasticsearch import Elasticsearch
 from conf import cnf
+import functools
+import time
+import logging
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger()
 
 
 def query_es_by_match(index, doc_type, condition_dict, *get_keys):
@@ -76,10 +82,11 @@ def select(file, *row, **condition):
                         r.append(i)
         else:
             for i in lines:
+                i = i.split(',')
                 if row:
                     r.append(list(map(lambda x: i[x], row)))
                 else:
-                    r.append(i.split(','))
+                    r.append(i)
         return r
 
 
@@ -123,3 +130,23 @@ def delete(file, **condition):
                     if v != line_list[int(k)]:
                         fw.write(','.join(line_list))
                         break
+
+
+def interface_log(type):
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kw):
+            tmp = list(args)
+            if kw:
+                tmp.append(kw)
+            try:
+                r = func(*args, **kw)
+                logger.info('%s,func:%s,args:%s' % (type, func.__name__, ','.join(str(x) for x in tmp)))
+                return r
+            except Exception as e:
+                logger.error(e)
+                logger.error('%s,func:%s,args:%s' % (type, func.__name__, ','.join(str(x) for x in tmp)))
+
+        return wrapper
+
+    return decorator
