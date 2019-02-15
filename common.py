@@ -31,6 +31,15 @@ def login_index_valid(username, password):
     return r
 
 
+@tools.interface_log('LOGOUT')
+def logout_index(username):
+    if len(tools.select(cnf.t_rourou, **{'1': username})) == 1:
+        r = [0, '登出成功O(∩_∩)O']
+    else:
+        r = [-1, '账号不存在(；′⌒`)']
+    return r
+
+
 def random_cardno():
     while True:
         r = random.randint(10000000, 99999999)

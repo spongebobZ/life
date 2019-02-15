@@ -2,7 +2,7 @@ import random
 import time
 import tools
 from conf import cnf
-from common import login_index_valid
+from common import login_index_valid, logout_index
 import threading
 
 # 在线用户队列，eg：{'brr':[10,60]}，表示brr用户设置的在线时长为60s，剩余下线时间为10s
@@ -22,6 +22,8 @@ def login_queue():
                 t = random.randint(30, 100)
                 tmp_queue[i] = [t, t]
                 login_index_valid(i, '0000')
+        # for j in tmp_queue:
+        #     print('%s login' % j)
         change_queue(tmp_queue)
         time.sleep(random.randint(10, 60))
 
@@ -34,7 +36,8 @@ def run_queue():
         for k, v in tmp_queue.items():
             if v[0] <= 0:
                 del_keys.append(k)
-                print('%s online time is: %s ' % (k, v[1]))
+                # print('%s logout' % k)
+                logout_index(k)
             else:
                 v[0] -= 1
         for i in del_keys:
