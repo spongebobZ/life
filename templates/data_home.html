@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GAME DATA MASTER</title>
+    <style type="text/css">
+        p,input,legend{
+            text-align: center;
+            font-family: 'Microsoft YaHei UI'
+        }
+        button{
+            text-align: center;
+            background-color: bisque;
+            color: darkgoldenrod;
+            font-family: 'Microsoft YaHei UI'
+        }
+        body{
+            background:url(/static/pic1.png)  no-repeat center center;
+            background-size:cover;
+            background-attachment:fixed;
+            background-color: #cc93a1;
+			}
+        .left{
+            position:absolute;
+            left:5%
+        }
+        .mid{
+            position:absolute;
+            left:35%
+        }
+        .right{
+            position:absolute;
+            left:65%
+        }
+
+
+    </style>
+
+
+</head>
+<body>
+<div id="order" class="left" style="top:100px;width:600px; height:400px"></div>
+<div id="money" class="mid" style="top:100px;width:600px; height:400px"></div>
+<div id="reg" class="right" style="top:100px;width:600px; height:400px"></div>
+<div id="login" class="left" style="top:600px;width:600px; height:400px"></div>
+<div id="today_topn" class="mid" style="top:600px;width:600px; height:400px"></div>
+</body>
+<script src="/static/js/jquery.js"></script>
+<script src="/static/js/echarts.js"></script>
+
+<script type="text/javascript">
+    var order_chart = echarts.init(document.getElementById('order'));
+    order_chart.setOption({
+    title: {
+        text: '订单量'
+    },
+    xAxis: {
+        type: 'category',
+        data: ['昨日','今日']
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [{
+        data: [],
+        type: 'bar'
+    }]
+    });
+    var orders= [];
+
+    var money_chart = echarts.init(document.getElementById('money'));
+    money_chart.setOption({
+    title: {
+        text: '日收入'
+    },
+    xAxis: {
+        type: 'category',
+        data: ['昨日','今日']
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [{
+        data: [],
+        type: 'bar'
+    }]
+    });
+    var money=[];
+
+    var reg_chart = echarts.init(document.getElementById('reg'));
+    reg_chart.setOption({
+    title: {
+        text: '新增用户'
+    },
+    xAxis: {
+        type: 'category',
+        data: ['昨日','今日']
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [{
+        data: [],
+        type: 'bar'
+    }]
+    });
+    var reg= [];
+
+    var login_chart = echarts.init(document.getElementById('login'));
+    login_chart.setOption({
+    title: {
+        text: '活跃用户'
+    },
+    xAxis: {
+        type: 'category',
+        data: ['昨日','今日']
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [{
+        data: [],
+        type: 'bar'
+    }]
+    });
+    var login= [];
+
+    var today_topn_chart = echarts.init(document.getElementById('today_topn'));
+    today_topn_chart.setOption({
+    title: {
+        text: '今日道具购买TOP3'
+    },
+    color: ['#3398DB'],
+    tooltip : {
+        trigger: 'axis',
+        axisPointer : {
+            type : 'shadow'
+        }
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    xAxis : [
+        {
+            type : 'category',
+            data : ['top1', 'top2', 'top3'],
+            axisTick: {
+                alignWithLabel: true
+            }
+        }
+    ],
+    yAxis : [
+        {
+            type : 'value'
+        }
+    ],
+    series : [
+        {
+            name:'购买量',
+            type:'bar',
+            barWidth: '60%',
+            data:[]
+        }]
+    });
+    var topn_products=[];
+    var topn_sells=[];
+
+$.ajax({
+        type:"get",
+        url:"/data/view",
+        dataType: "json",
+        success:function(data){
+            orders=[data.yesterday_orders,data.today_realtime_orders]
+            money=[data.yesterday_money_sum,data.today_realtime_money]
+            reg=[data.yesterday_reg,data.today_reg]
+            login=[data.yesterday_dau,data.today_dau]
+            topn_products=[data.today_top1_productid,data.today_top2_productid,data.today_top3_productid]
+            topn_sells=[data.today_top1_sells,data.today_top2_sells,data.today_top3_sells]
+			order_chart.setOption({
+			series: [{
+				data: orders
+			}]
+			});
+			money_chart.setOption({
+			series: [{
+				data: money
+			}]
+			});
+			reg_chart.setOption({
+			series: [{
+				data: reg
+			}]
+			});
+			login_chart.setOption({
+			series: [{
+				data: login
+			}]
+			});
+			today_topn_chart.setOption({
+			xAxis:[{
+			    data:topn_products
+			}],
+			series: [{
+				data: topn_sells
+			}]
+			});
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+</html>

@@ -22,7 +22,7 @@ def get_days_past_topn_products(n=1):
     date = str(datetime.date.today() - datetime.timedelta(days=n)).replace('-', '')
     try:
         date_topn_products = tools.query_es_by_index_and_type(date, cnf.es_type_topn_product, 'first_info',
-                                                              'second_info','third_info')
+                                                              'second_info', 'third_info')
     except NotFoundError:
         date_topn_products = {}
     return date_topn_products
@@ -50,8 +50,43 @@ def get_today_realtime_topn_products():
     return topn_info
 
 
+# online task:today_reg
+def get_today_realtime_reg():
+    today = str(datetime.date.today()).replace('-', '')
+    today_reg = tools.query_es_by_aggs(cnf.es_index_today_reg, today, 'sum', 'regCnt')
+    return today_reg
+
+
+# offline task:yestoday_reg
+def get_days_past_reg(n=1):
+    date = str(datetime.date.today() - datetime.timedelta(days=n)).replace('-', '')
+    try:
+        date_reg = tools.query_es_by_index_and_type(date, cnf.es_type_reg, 'regCnt')
+    except NotFoundError:
+        date_reg = {}
+    return date_reg
+
+
+# online task:today_dau
+def get_today_dau():
+    today = str(datetime.date.today()).replace('-', '')
+    today_dau = tools.query_es_by_aggs(cnf.es_index_today_dau, today, 'max', 'dau')
+    return today_dau
+
+
+# offline task:yesterday_dau
+def get_day_past_dau(n=1):
+    date = str(datetime.date.today() - datetime.timedelta(days=n)).replace('-', '')
+    try:
+        date_dau = tools.query_es_by_index_and_type(date, cnf.es_type_reg, 'dau')
+    except NotFoundError:
+        date_dau = {}
+    return date_dau
+
+
 if __name__ == '__main__':
     # print(get_days_past_total_orders())
     # print(get_today_realtime_total_orders())
     # print(get_today_realtime_topn_products())
-    print(get_days_past_topn_products())
+    print(get_today_realtime_reg())
+    # print(get_days_past_topn_products())

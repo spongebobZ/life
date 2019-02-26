@@ -1,6 +1,6 @@
 import functools
 
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
 import time, tools, common, counts
 from conf import cnf
 
@@ -165,13 +165,13 @@ def enter_seller(username):
         return render_template('select_buy_sell.html', username=username, login_result=r[1])
 
 
-@app.route('/data_center/<username>', methods=['GET'])
+@app.route('/data/home/<username>', methods=['GET'])
 def go_data_center(username):
-    return render_template('data_index.html', username=username)
+    return render_template('data_home.html', username=username)
 
 
-@app.route('/data/index/<username>', methods=['GET'])
-def get_data_index(username):
+@app.route('/data/view', methods=['GET'])
+def get_data_index():
     today_realtime_data = counts.get_today_realtime_total_orders()
     today_realtime_orders = int(today_realtime_data[0])
     today_realtime_money = float(today_realtime_data[1])
@@ -198,26 +198,34 @@ def get_data_index(username):
     yesterday_top1_product = yesterday_topn_products_data.get("first_info", {'product_id': '', 'sells': 0})
     yesterday_top2_product = yesterday_topn_products_data.get("second_info", {'product_id': '', 'sells': 0})
     yesterday_top3_product = yesterday_topn_products_data.get("third_info", {'product_id': '', 'sells': 0})
-    return render_template('data_index.html', username=username, today_realtime_orders=today_realtime_orders,
-                           today_realtime_money=today_realtime_money,
-                           yesterday_orders=yesterday_orders, yesterday_pc_order_rate=yesterday_pc_order_rate,
-                           yesterday_ios_order_rate=yesterday_ios_order_rate,
-                           yesterday_android_order_rate=yesterday_android_order_rate,
-                           yesterday_money_sum=yesterday_money_sum, yesterday_pc_money_rate=yesterday_pc_money_rate,
-                           yesterday_ios_money_rate=yesterday_ios_money_rate,
-                           yesterday_android_money_rate=yesterday_android_money_rate,
-                           yesterday_top1_productid=yesterday_top1_product.get("product_id"),
-                           yesterday_top1_sells=yesterday_top1_product.get("sells"),
-                           yesterday_top2_productid=yesterday_top2_product.get("product_id"),
-                           yesterday_top2_sells=yesterday_top2_product.get("sells"),
-                           yesterday_top3_productid=yesterday_top3_product.get("product_id"),
-                           yesterday_top3_sells=yesterday_top3_product.get("sells"),
-                           today_top1_productid=today_top1_product.get('productid'),
-                           today_top1_sells=today_top1_product.get('sells'),
-                           today_top2_productid=today_top2_product.get('productid'),
-                           today_top2_sells=today_top2_product.get('sells'),
-                           today_top3_productid=today_top3_product.get('productid'),
-                           today_top3_sells=today_top3_product.get('sells'))
+    today_reg = counts.get_today_realtime_reg()
+    yesterday_reg = counts.get_days_past_reg().get('regCnt', 0)
+    today_dau = counts.get_today_dau()
+    yesterday_dau = counts.get_day_past_dau()
+    index_view_data = {'today_realtime_orders': today_realtime_orders, 'today_realtime_money': today_realtime_money,
+                       'yesterday_orders': yesterday_orders,
+                       'yesterday_pc_order_rate': yesterday_pc_order_rate,
+                       'yesterday_ios_order_rate': yesterday_ios_order_rate,
+                       'yesterday_android_order_rate': yesterday_android_order_rate,
+                       'yesterday_money_sum': yesterday_money_sum, 'yesterday_pc_money_rate': yesterday_pc_money_rate,
+                       'yesterday_ios_money_rate': yesterday_ios_money_rate,
+                       'yesterday_android_money_rate': yesterday_android_money_rate,
+                       'yesterday_top1_productid': yesterday_top1_product.get("product_id"),
+                       'yesterday_top1_sells': yesterday_top1_product.get("sells"),
+                       'yesterday_top2_productid': yesterday_top2_product.get("product_id"),
+                       'yesterday_top2_sells': yesterday_top2_product.get("sells"),
+                       'yesterday_top3_productid': yesterday_top3_product.get("product_id"),
+                       'yesterday_top3_sells': yesterday_top3_product.get("sells"),
+                       'today_top1_productid': today_top1_product.get('productid'),
+                       'today_top1_sells': today_top1_product.get('sells'),
+                       'today_top2_productid': today_top2_product.get('productid'),
+                       'today_top2_sells': today_top2_product.get('sells'),
+                       'today_top3_productid': today_top3_product.get('productid'),
+                       'today_top3_sells': today_top3_product.get('sells'),
+                       'today_reg': today_reg, 'yesterday_reg': yesterday_reg,
+                       'today_dau': today_dau, 'yesterday_dau': yesterday_dau
+                       }
+    return jsonify(index_view_data)
 
 
 if __name__ == '__main__':

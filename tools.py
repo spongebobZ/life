@@ -1,7 +1,6 @@
 from elasticsearch import Elasticsearch
 from conf import cnf
 import functools
-import time
 import logging
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')

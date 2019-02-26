@@ -20,6 +20,10 @@ cnf.es_port = 9200
 # es offline type
 cnf.es_type_order_count = 'order_count'
 cnf.es_type_topn_product = 'topn_products'
+cnf.es_type_reg = 'reg'
+cnf.es_type_dau = 'login'
 # es online index
 cnf.es_index_today_order_count = 'today_order_count'
 cnf.es_index_today_topn_product = 'today_topn_product'
+cnf.es_index_today_reg = 'today_reg'
+cnf.es_index_today_dau = 'today_dau'
